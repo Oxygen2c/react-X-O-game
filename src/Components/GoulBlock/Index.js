@@ -13,25 +13,41 @@ export class GoulBlock extends React.Component {
     this.fnc = this.fnc.bind(this);
   }
   addGoul = () => {
+    let newItem = {
+      id: 7,
+      title: "Задача",
+      number: 7,
+      text: "Тут писание",
+      complite: false
+    };
     // const oldState = {...this.state}
     this.setState({
-      goulData: [
-        ...this.state.goulData,
-        {
-          id: 7,
-          title: "Задача",
-          number: 7,
-          text: "Тут писание",
-          complite: false
-        }
-      ]
+      goulData: [...this.state.goulData, newItem]
     });
-    // this.setState(({   goulData }) => {   return {     goulData: [...goulData, {
-    // id: 7,       title: 'Задача',       number: 7,       text: 'Тут писание',
-    // complite: false     }]   } })
+    // this.setState(({ goulData }) => {
+    //   return {
+    //     goulData: [
+    //       ...goulData,
+    //       {
+    //         id: 7,
+    //         title: "Задача",
+    //         number: 7,
+    //         text: "Тут писание",
+    //         complite: false
+    //       }
+    //     ]
+    //   };
+    // });
   };
 
   fnc = () => {
+    this.setState(prevState => {
+      return {
+        value: prevState.value + 1
+      };
+    });
+  };
+  handleChange = (id) => {
     this.setState(prevState => {
       return {
         value: prevState.value + 1
@@ -43,7 +59,7 @@ export class GoulBlock extends React.Component {
     // let $goulData = this.state.goulData
 
     const goulCopmonents = this.state.goulData.map(elem => {
-      return <Goul key={elem.id} goulData={elem} />;
+      return <Goul key={elem.id} goulData={elem} onChange = {this.handleChange}/>;
     });
 
     // Фильтруются принимаемые данные (пропсы для Block),на выходе Block только с
