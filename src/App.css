@@ -1,8 +1,17 @@
 
 .block {
+  border-radius: 10px;
+  max-width: 500px;
   padding: 10px;
   border: 1px solid #000;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 5px;
+}
+.log-info {
+  margin-top: 10px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
 }

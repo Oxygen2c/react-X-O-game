@@ -10,7 +10,7 @@ export class GoulBlock extends React.Component {
       value: 1
     };
     this.addGoul = this.addGoul.bind(this);
-    this.fnc = this.fnc.bind(this);
+    this.IncCount = this.IncCount.bind(this);
   }
   addGoul = () => {
     let newItem = {
@@ -24,71 +24,68 @@ export class GoulBlock extends React.Component {
     this.setState({
       goulData: [...this.state.goulData, newItem]
     });
-    // this.setState(({ goulData }) => {
-    //   return {
-    //     goulData: [
-    //       ...goulData,
-    //       {
-    //         id: 7,
-    //         title: "Задача",
-    //         number: 7,
-    //         text: "Тут писание",
-    //         complite: false
-    //       }
-    //     ]
-    //   };
-    // });
   };
 
-  fnc = () => {
+  IncCount = () => {
     this.setState(prevState => {
       return {
         value: prevState.value + 1
       };
     });
   };
-  handleChange = (id) => {
+  handleChange = id => {
     this.setState(prevState => {
+      const newGoulData = prevState.goulData.map(elem => {
+        if (elem.id == id) {
+          elem.complite = !elem.complite;
+        }
+        return elem;
+      });
       return {
-        value: prevState.value + 1
+        goulData: newGoulData
       };
     });
   };
 
   render() {
-    // let $goulData = this.state.goulData
-
+   
     const goulCopmonents = this.state.goulData.map(elem => {
-      return <Goul key={elem.id} goulData={elem} onChange = {this.handleChange}/>;
+      return (
+        <Goul key={elem.id} goulData={elem} onChange={this.handleChange} />
+      );
     });
 
-    // Фильтруются принимаемые данные (пропсы для Block),на выходе Block только с
-    // complite:true
-    const goulDataFiltered = this.state.goulData.filter(elem => {
+    const goulDataFiltered = this.state.goulData.filter(elem => {     // Фильтруются принимаемые данные (пропсы для Block),на выходе Block только с complite:true
       return elem.complite == true;
     });
-
-    // создание отфильтрованных компоненов <Block />
-    const goulCopmonentsFiltered = goulDataFiltered.map(elem => {
-      return <Goul key={elem.id} goulData={elem} />;
+    
+    const goulCopmonentsFiltered = goulDataFiltered.map(elem => {     // создание отфильтрованных компоненов <Block />
+      return (
+        <Goul key={elem.id} goulData={elem} onChange={this.handleChange} />
+      );
     });
 
-    return (
-      <div>
-        <button onClick={this.fnc}>Inc count</button>
-        {this.state.value}
-        <div className="not-filtered">
-          <h1>Not filtered, rendered with map()</h1>
-          <h1>You are logged {this.state.isLogged ? "in" : "out"}</h1>
-          <button onClick={this.addGoul}>Add goul</button>
-          {goulCopmonents}
-        </div>
+      return (
+        
+          <div>
+            <div className = "counter">
+              <button onClick={this.IncCount}>Inc count</button>
+              {this.state.value}
+            </div>
+  
+            <div className="not-filtered">
+              <h1>Not complited goals</h1>                          { /* Not filtered, rendered with map */}
+              <button onClick={this.addGoul}>Add goul</button>
+              {goulCopmonents}
+            </div>
+  
+            <div className="filtered">
+              <h1>Complited goals</h1>
+              {goulCopmonentsFiltered}                              {/* Filtered, rendered with map */}
+            </div>
+          </div> 
 
-        <div className="filtered">
-          <h1>Filtered, rendered with map()</h1>
-          {goulCopmonentsFiltered}
-        </div>
-      </div>
-    );
+      );
+    
   }
 }
